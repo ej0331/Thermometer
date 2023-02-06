@@ -1,4 +1,5 @@
 import { Text, Image, View, StyleSheet, TouchableOpacity, TextInput, ScrollView, FlatList, Button } from "react-native";
+import styles from "../styles/ShareStyles";
 
 const HomeScreen = () => {
     return (
