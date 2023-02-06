@@ -7,7 +7,7 @@
 npm install
 ```
 
-2. 到ios目錄 使用下載iOS套件
+2. 到ios目錄 使用pod下載iOS套件
 ```
 pod install
 ```
