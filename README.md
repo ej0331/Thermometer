@@ -1,6 +1,6 @@
 # Thermometer
 
-## 第一次pull
+## 每次pull完
 
 1. 到專案目錄下載相關套件
 ```
