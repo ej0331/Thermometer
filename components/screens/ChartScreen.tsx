@@ -30,8 +30,7 @@ const getLabels = (index: number) => {
     return labels
 }
 
-const getDatas = async(index: number) => {
-    var data: never[] = []
+const getDatas = async (index: number) => {
     var limit = 10
     switch (index) {
         case 0:
@@ -44,21 +43,7 @@ const getDatas = async(index: number) => {
             limit = 12
             break
     }
-    axios.get('http://192.168.168.155:3000/api/datas?limit=24')
-        .then( (response) => data = response["data"])
-        .catch( (error) => console.log(error));
-
-    // 非同步寫法
-    // try{
-    //     const response = await axios.get('http://192.168.168.155:3000/api/datas?limit=24');
-    //     data = response['data']
-    //     console.log(data);
-    // }
-    // catch(error){
-    //     console.log(error)
-    // }
-    console.log("mydata", data);
-    return data
+    return axios.get(`http://192.168.168.155:3000/api/datas?limit=${limit}`)
 }
 
 const ChartScreen = () => {
@@ -68,18 +53,24 @@ const ChartScreen = () => {
     const [labels, setLabels] = useState(getLabels(selectedIndex));
 
     useEffect( () => {
-        const temp = getDatas(selectedIndex)
+        const getDataTask = getDatas(selectedIndex)
         const temperatures: number[] = []
         const humidities: number[] = []
-        console.log('mytemp',temp);
-        
-        temp.forEach ((list, index) => {
-            temperatures.push(list['temperature'])
-            humidities.push(list['humidity'])
+
+        getDataTask.then( (response) => {
+            response.data.forEach ((record) => {
+                temperatures.push(record['temperature'])
+                humidities.push(record['humidity'])
+            })
+            setLabels(getLabels(selectedIndex))
+            setTemperatures(temperatures)
+            setHumidities(humidities)
         })
-        setLabels(getLabels(selectedIndex))
-        setTemperatures(temperatures)
-        setHumidities(humidities)
+
+        getDataTask.catch( (e) => {
+            console.log("MyResponse", e)
+        })
+
     }, [selectedIndex])
 
     return (
