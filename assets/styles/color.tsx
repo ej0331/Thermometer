@@ -1,5 +1,7 @@
 const chartBackgroundColor = "#ebebeb"
 
-const chartDataColor = (opacity = 1) => `rgba(73, 80, 87, ${opacity})`
+const textColor = "#495057"
 
-export {chartBackgroundColor, chartDataColor}
+const chartDataColor = (opacity = 1) => `rgba(73, 80, 100, ${opacity})`
+
+export {chartBackgroundColor, textColor, chartDataColor}
