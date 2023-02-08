@@ -3,6 +3,7 @@ import { LineChart } from 'react-native-chart-kit';
 import * as color from "../../assets/styles/color";
 
 const LineChartScreen = ({labels , datas}) => {
+    
     const data = {
         labels: labels,
         datasets: [{
@@ -17,6 +18,7 @@ const LineChartScreen = ({labels , datas}) => {
     }
 
     return (
+        
         <LineChart
             data={data}
             width={Dimensions.get('window').width -16}
@@ -27,8 +29,10 @@ const LineChartScreen = ({labels , datas}) => {
                 alignItems: "center",
                 borderRadius: 16,
             }}
+            fromZero
             bezier //線條變圓潤
         />
+        
     )
 }
 
