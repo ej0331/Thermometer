@@ -15,7 +15,10 @@ const styles = StyleSheet.create({
         padding: 10,
         marginTop: 10,
         backgroundColor: '#DDDDDD'
-    }
+    },
+    title: {
+        paddingTop: 10
+    },
 });
 
 export default styles
