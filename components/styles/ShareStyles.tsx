@@ -19,6 +19,9 @@ const styles = StyleSheet.create({
     title: {
         paddingTop: 10
     },
+    font: {
+        fontSize: 32
+    }
 });
 
 export default styles
