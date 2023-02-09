@@ -11,17 +11,17 @@ const getLabels = (index: number) => {
     const labels = []
     switch (index) {
         case 0:
-            for (var i = 0; i <= 23; i++) {
+            for (var i = 0; i <= 4; i++) { // 4 quarter for 1 hour
                 labels.push(i)
             }
             break
         case 1:
-            for (var i = 0; i <= 30; i++) {
+            for (var i = 0; i <= 24; i++) { // 24 hours for 1 day
                 labels.push(i)
             }
             break
         case 2:
-            for (var i = 0; i <= 12; i++) {
+            for (var i = 0; i <= 7; i++) { // 7 day for 1 week
                 labels.push(i)
             }
             break
@@ -31,19 +31,22 @@ const getLabels = (index: number) => {
 }
 
 const getDatas = async (index: number) => {
-    var limit = 10
+    let now = new Date(Date.now())
+    let endTimestamp = now.valueOf()
+
     switch (index) {
-        case 0:
-            limit = 24
+        case 0: 
+            // code
             break
-        case 1:
-            limit = 30
+        case 1: 
+            // code
             break
-        case 2:
-            limit = 12
+        case 2: 
+            // code
             break
     }
-    return axios.get(`http://192.168.168.155:3000/api/datas?limit=${limit}`)
+
+    return axios.get(`new endpoint`)
 }
 
 const ChartScreen = () => {
@@ -68,7 +71,7 @@ const ChartScreen = () => {
         })
 
         getDataTask.catch( (e) => {
-            console.log("MyResponse", e)
+            console.log("Error:", e)
         })
 
     }, [selectedIndex])
@@ -76,7 +79,7 @@ const ChartScreen = () => {
     return (
         <View style={styles.title}>
             <ButtonGroup
-                buttons={['Hour', 'Day', 'Month']}
+                buttons={['Hour', 'Day', 'Week']}
                 selectedIndex={selectedIndex}
                 onPress={(value) => {
                     setSelectedIndex(value);
