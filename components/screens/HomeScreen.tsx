@@ -21,8 +21,7 @@ const HomeScreen = () => {
             axios.get('http://192.168.168.155:3000/api/data')
                 .then(res => {
                     const data = res.data
-                    console.log(data)
-                    const date = new Date(data.timestamp * 1000)
+                    const date = new Date(data.timestamp)
                     const time = date.toLocaleTimeString('zh-TW', { hour12: false })
                     const currentLabels = labels.concat()
                     const currentTempDatas = tempDatas.concat()

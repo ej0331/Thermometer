@@ -7,72 +7,85 @@ import LineChartScreen from "./LineChartScreen";
 import styles from "../styles/ShareStyles";
 import axios from 'axios'
 
-const getLabels = (index: number) => {
-    const labels = []
+const getLabels = (index: number, array: Date[]) => {
+    const labels: String[] = []
+    const data = array
+
     switch (index) {
         case 0:
-            for (var i = 0; i <= 4; i++) { // 4 quarter for 1 hour
-                labels.push(i)
-            }
+            data.forEach(item => {
+                const time = item.toLocaleTimeString(['zh-TW'], { hour: '2-digit', minute: '2-digit' })
+                labels.push(time.toString())
+            })
+
             break
         case 1:
-            for (var i = 0; i <= 24; i++) { // 24 hours for 1 day
-                labels.push(i)
-            }
+
+            data.forEach(item => {
+                const time = item.getHours()
+                labels.push(time.toString())
+            })
             break
         case 2:
-            for (var i = 0; i <= 7; i++) { // 7 day for 1 week
-                labels.push(i)
-            }
+            data.forEach(item => {
+                const time = item.getDate()
+                labels.push(time.toString())
+            })
             break
     }
-
     return labels
 }
 
 const getDatas = async (index: number) => {
     let now = new Date(Date.now())
     let endTimestamp = now.valueOf()
-
+    let type = ''
     switch (index) {
-        case 0: 
+        case 0:
+            type = 'quarter'
             // code
             break
-        case 1: 
+        case 1:
+            type = 'hour'
             // code
             break
-        case 2: 
+        case 2:
+            type = 'day'
             // code
             break
     }
 
-    return axios.get(`new endpoint`)
+    return axios.get(`http://192.168.168.155:3000/api/datas/${type}`)
 }
 
 const ChartScreen = () => {
     const [selectedIndex, setSelectedIndex] = useState(0);
-    const [temperatures, setTemperatures] = useState(getLabels(selectedIndex));
-    const [humidities, setHumidities] = useState(getLabels(selectedIndex));
-    const [labels, setLabels] = useState(getLabels(selectedIndex));
+    const [temperatures, setTemperatures] = useState([24]);
+    const [humidities, setHumidities] = useState([16]);
+    const [labels, setLabels] = useState(getLabels(selectedIndex, []));
 
-    useEffect( () => {
+    useEffect(() => {
         const getDataTask = getDatas(selectedIndex)
         const temperatures: number[] = []
         const humidities: number[] = []
+        const labels: Date[] = []
 
-        getDataTask.then( (response) => {
-            response.data.forEach ((record) => {
-                temperatures.push(record['temperature'])
-                humidities.push(record['humidity'])
+        getDataTask.then((response) => {
+            response.data.forEach((record) => {
+                const date = new Date(record['earliest_timestamp'])
+                temperatures.push(record['temperature_avg'])
+                humidities.push(record['humidity_avg'])
+                labels.push(date)
             })
-            setLabels(getLabels(selectedIndex))
+
+            setLabels(getLabels(selectedIndex, labels))
             setTemperatures(temperatures)
             setHumidities(humidities)
         })
 
-        getDataTask.catch( (e) => {
-            console.log("Error:", e)
-        })
+            .catch((e) => {
+                console.log("Error:", e)
+            })
 
     }, [selectedIndex])
 
