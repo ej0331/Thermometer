@@ -31,6 +31,7 @@ const LineChartScreen = ({labels , datas}) => {
             }}
             fromZero
             bezier //線條變圓潤
+            verticalLabelRotation={30}
         />
         
     )
