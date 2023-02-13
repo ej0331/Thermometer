@@ -22,7 +22,7 @@ const LineChartScreen = ({labels , datas}) => {
         <LineChart
             data={data}
             width={Dimensions.get('window').width -16}
-            height={250}
+            height={280}
             chartConfig={chartConfig}
             withHorizontalLines={false}
             style={{

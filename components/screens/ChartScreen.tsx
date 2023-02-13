@@ -17,22 +17,33 @@ const getLabels = (index: number, array: Date[]) => {
                 const time = item.toLocaleTimeString(['zh-TW'], { hour: '2-digit', minute: '2-digit' })
                 labels.push(time.toString())
             })
-
             break
         case 1:
-
+            const currentDate = new Date();
+            const yesterday = new Date();
+            currentDate.setHours(0, 0, 0, 0)
+            yesterday.setHours(-24, 0, 0, 0)
+            
             data.forEach(item => {
-                const time = item.getHours()
-                labels.push(time.toString())
+                const hour = item.getHours()
+                if (item.valueOf() > currentDate.valueOf()) {
+                    labels.push("今天" + hour + "時")
+                }
+                else if (item.valueOf() >= yesterday.valueOf() && item.valueOf() <= currentDate.valueOf()) {
+                    labels.push("昨天" + hour + "時")
+                }
+                else {
+                    labels.push(item.getMonth() + 1 + "月" + item.getDate() + "日" + hour + "時")
+                }
             })
             break
         case 2:
             data.forEach(item => {
-                const time = item.getDate()
-                labels.push(time.toString())
+                labels.push(item.getMonth() + 1 + "月" + item.getDate() + "日")
             })
             break
     }
+
     return labels
 }
 
