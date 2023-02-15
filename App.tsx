@@ -3,9 +3,9 @@ import { Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import HomeScreen from './components/screens/HomeScreen';
-import ChartScreen from './components/screens/ChartScreen';
-import styles from './components/styles/ShareStyles';
+import HomeScreen from './screens/HomeScreen';
+import ChartScreen from './screens/ChartScreen';
+import styles from './styles/ShareStyles';
 
 const Tab = createBottomTabNavigator();
 const originColor = "#ced4da"

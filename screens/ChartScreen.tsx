@@ -1,9 +1,7 @@
 import { Text, Image, View, StyleSheet, TouchableOpacity, TextInput, ScrollView, FlatList, Button, Dimensions } from "react-native";
 import { ButtonGroup } from "react-native-elements"
-import { LineChart } from 'react-native-chart-kit';
-import * as color from "../../assets/styles/color";
 import React, { useState, useEffect, useContext } from "react";
-import LineChartScreen from "./LineChartScreen";
+import HistoryLineChart from "../components/HistoryLineChart";
 import styles from "../styles/ShareStyles";
 import axios from 'axios'
 
@@ -101,7 +99,7 @@ const ChartScreen = () => {
     }, [selectedIndex])
 
     return (
-        <View style={styles.title}>
+        <View>
             <ButtonGroup
                 buttons={['Hour', 'Day', 'Week']}
                 selectedIndex={selectedIndex}
@@ -109,11 +107,11 @@ const ChartScreen = () => {
                     setSelectedIndex(value);
                 }}
             />
-            <Text>Temperature</Text>
-            <LineChartScreen labels={labels} datas={temperatures} />
+            <Text style={styles.title}>Temperature</Text>
+            <HistoryLineChart labels={labels} datas={temperatures} />
 
-            <Text>Humidity</Text>
-            <LineChartScreen labels={labels} datas={humidities} />
+            <Text style={styles.title}>Humidity</Text>
+            <HistoryLineChart labels={labels} datas={humidities} />
         </View>
     )
 }

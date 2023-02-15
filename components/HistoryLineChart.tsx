@@ -1,8 +1,8 @@
 import { Dimensions } from "react-native";
 import { LineChart } from 'react-native-chart-kit';
-import * as color from "../../assets/styles/color";
+import * as color from "../assets/styles/color";
 
-const LineChartScreen = ({labels , datas}) => {
+const HistoryLineChart = ({labels , datas}) => {
     
     const data = {
         labels: labels,
@@ -31,10 +31,10 @@ const LineChartScreen = ({labels , datas}) => {
             }}
             fromZero
             bezier //線條變圓潤
-            verticalLabelRotation={30}
+            verticalLabelRotation={20}
         />
         
     )
 }
 
-export default LineChartScreen
+export default HistoryLineChart
