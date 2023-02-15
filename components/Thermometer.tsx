@@ -1,40 +1,27 @@
-import React from 'react'
-import { Text } from 'react-native-svg'
-import Speedometer, {
-    Indicator,
-    Progress,
-    Arc
-} from 'react-native-cool-Speedometer'
+import React, { Component, useState, useEffect } from 'react';
+import {
+  SafeAreaView,
+  StyleSheet,
+  TextInput
+} from 'react-native';
+import RNSpeedometer from 'react-native-speedometer'
 
-const Circular = () => {
-    const center = 250 / 2
+const Thermometer = (props) => {
+    const [temperature, setTemperature] = useState(props.temperature)
+    console.log(props);
+    
+    useEffect(() => {
+        setTemperature(props.temperature)
+    }, [props.temperature])
+
     return (
-        <Speedometer
-            value={40}
-            max={100}
-            angle={360}
-            lineCap="round"
-            accentColor="orange"
-        >
-            <Arc arcWidth={40} />
-            <Progress arcWidth={40} />
-            <Indicator fixValue={false}>
-                {(value, textProps) => (
-                    <Text
-                        {...textProps}
-                        fontSize={60}
-                        fill="orange"
-                        x={center}
-                        y={center + 10}
-                        textAnchor="middle"
-                        alignmentBaseline="middle"
-                    >
-                        {value}%
-                    </Text>
-                )}
-            </Indicator>
-        </Speedometer>
+        <RNSpeedometer 
+            value={temperature} 
+            size={200} 
+            labelWrapperStyle={{ height: 0, width: 0}}
+            innerCircleStyle={{backgroundColor: "#f0f0f0"}}
+        />
     )
 }
 
-export default Circular
+export default Thermometer

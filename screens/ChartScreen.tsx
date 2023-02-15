@@ -2,7 +2,7 @@ import { Text, Image, View, StyleSheet, TouchableOpacity, TextInput, ScrollView,
 import { ButtonGroup } from "react-native-elements"
 import React, { useState, useEffect, useContext } from "react";
 import HistoryLineChart from "../components/HistoryLineChart";
-import styles from "../styles/ShareStyles";
+import styles from "../styles/HistoryChartStyles";
 import axios from 'axios'
 
 const getLabels = (index: number, array: Date[]) => {

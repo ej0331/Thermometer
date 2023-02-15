@@ -5,7 +5,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import HomeScreen from './screens/HomeScreen';
 import ChartScreen from './screens/ChartScreen';
-import styles from './styles/ShareStyles';
+import styles from './styles/HistoryChartStyles';
 
 const Tab = createBottomTabNavigator();
 const originColor = "#ced4da"

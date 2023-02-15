@@ -18,7 +18,6 @@ const HistoryLineChart = ({labels , datas}) => {
     }
 
     return (
-        
         <LineChart
             data={data}
             width={Dimensions.get('window').width -16}
@@ -31,9 +30,8 @@ const HistoryLineChart = ({labels , datas}) => {
             }}
             fromZero
             bezier //線條變圓潤
-            verticalLabelRotation={20}
+            verticalLabelRotation={45}
         />
-        
     )
 }
 

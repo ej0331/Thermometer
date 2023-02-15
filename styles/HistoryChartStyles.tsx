@@ -1,10 +1,6 @@
 import { StyleSheet } from 'react-native';
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        paddingTop: 20,
-    },
+const historyChartStyle = StyleSheet.create({
     item: {
         padding: 10,
         fontSize: 18,
@@ -17,13 +13,13 @@ const styles = StyleSheet.create({
         backgroundColor: '#DDDDDD'
     },
     title: {
-        paddingTop: 5,
+        paddingTop: 10,
         textAlign: "center",
-        fontSize: 16,
+        fontSize: 18,
     },
     font: {
         fontSize: 32
     }
 });
 
-export default styles
+export default historyChartStyle
