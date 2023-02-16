@@ -8,7 +8,6 @@ import RNSpeedometer from 'react-native-speedometer'
 
 const Thermometer = (props) => {
     const [temperature, setTemperature] = useState(props.temperature)
-    console.log(props);
     
     useEffect(() => {
         setTemperature(props.temperature)
