@@ -114,14 +114,14 @@ const HistoryLineChart = ({ temperatureData, humidityData }) => {
             <LineChart
                 data={temperatureChartData}
                 data2={humidityDataChartData}
-                isAnimated={true}
+                // isAnimated={true}
                 scrollToEnd
                 showVerticalLines
                 color1="orange"
                 color2="skyblue"
                 dataPointsColor1="red"
                 dataPointsColor2="blue"
-                textFontSize={13}       
+                textFontSize={13}
             />
         </View>
     );

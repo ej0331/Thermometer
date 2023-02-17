@@ -5,60 +5,64 @@ import styles from "../styles/HistoryChartStyles";
 import axios from 'axios'
 import HistoryLineChart from "../components/HistoryLineChart";
 
-const getLabels = (index: number, history: Array<any>) => {
-    const labels: String[] = []
+const getLabels = (history: Array<any>, index: number) => {
+    let labels: string[] = []
 
     switch (index) {
         case 0:
             history.forEach(item => {
-                const time = item.toLocaleTimeString(['zh-TW'], { hour: '2-digit', minute: '2-digit' })
-                labels.push(time.toString())
+                const time = new Date(item['earliest_timestamp']).toLocaleTimeString(['zh-TW'], { hour: '2-digit', minute: '2-digit' })
+                labels.push(time)
             })
             break
         case 1:
-            const data = history.reverse()
-            let today = new Date()
-            let yesterday = new Date().setHours(-24, 0, 0, 0)
+            let data = history.reverse()            
+            let standard = new Date().setHours(0, 0, 0, 0)
+            let today = new Date().setHours(0, 0, 0, 0)
+            let yesterday = today - 86400 * 1000
             let head = 0
             let tail = 0
-
-            while (labels.length != history.length) { //爛code
-                while (data[tail] > today.valueOf()) {
+            
+            while (labels.length < history.length) { // 爛code
+                while (data[tail]['earliest_timestamp'] > standard.valueOf() && tail < history.length - 1) {
                     tail++
                 }
-                labels.push("今天" + data[head].getHours() + "時")
-                for (var i = head + 1; i <= tail; i++) {
-                    labels.push(data[i].getHours() + "時")
-                }
-                head = tail
-    
-                while (data[tail] > yesterday.valueOf()) {
-                    tail++
-                }
-                labels.push("昨天" + data[head].getHours() + "時")
-                for (var i = head + 1; i <= tail; i++) {
-                    labels.push(data[i].getHours() + "時")
-                }
-                head = tail
+                console.log("current head: ", head);
+                console.log("current tail: ", tail);
                 
+                let first = new Date(data[head]['earliest_timestamp'])
+                console.log('today ', tail, today, new Date(today));
+                console.log('yesterday ', tail, yesterday, new Date(yesterday));
+                console.log('currentDate ', tail, standard.valueOf(), new Date(standard.valueOf()));
+                
+                if (standard == today) {
+                    labels.push("今天" + first.getHours() + "時")
+                    console.log("add today first time: ", head);
+                }
+                else if (standard == yesterday) {
+                    labels.push("昨天" + first.getHours() + "時")
+                    console.log("add yesterday first time: ", head);
+                }
+                else {
+                    labels.push(first.getMonth() + 1 + "月" + first.getDate() + "日\n" + first.getHours() + "時")
+                    console.log("add first time: ", head);
+                }
+                for (let i = head + 1; i < tail; i++) {
+                    let time = new Date(data[i]['earliest_timestamp'])
+                    labels.push(time.getHours() + "時")
+                    console.log("add time", time);
+                }
+                standard -= 86400 * 1000
+                head = tail
             }
-
-            // array.forEach(item => {
-            //     const hour = item.getHours()
-            //     if (item.valueOf() > currentDate.valueOf()) {
-            //         labels.push("今天" + hour + "時")
-            //     }
-            //     else if (item.valueOf() >= yesterday.valueOf() && item.valueOf() <= currentDate.valueOf()) {
-            //         labels.push("昨天" + hour + "時")
-            //     }
-            //     else {
-            //         labels.push(item.getMonth() + 1 + "月" + item.getDate() + "日" + hour + "時")
-            //     }
-            // })
+            labels = labels.reverse()
+            console.log(labels);
+            
             break
         case 2:
             history.forEach(item => {
-                labels.push(item.getMonth() + 1 + "月" + item.getDate() + "日")
+                const time = new Date(item['earliest_timestamp'])
+                labels.push(time.getMonth() + 1 + "月" + time.getDate() + "日")
             })
             break
     }
@@ -101,39 +105,36 @@ const customDataPoint = () => {
     );
 };
 
-const customLabel = (val) => {
+const customLabel = (val: string) => {
     return (
         <View style={{ width: 70, marginLeft: 7 }}>
-            <Text style={{ color: 'black', fontWeight: 'bold' }}>{val}</Text>
+            <Text>{val}</Text>
         </View>
     );
 };
 
 const getChartData = (history: Array<any>, type: string, index: number) => {
     const chartData = []
-    history.forEach(record => {
+    let labels = getLabels(history, index)
+    for (let i = 0; i < history.length; i++) {
+        let myCustomLabel = customLabel(labels[i])
         let data = {
-            value: record[`${type}_avg`],
-            dataPointText: record[`${type}_avg`],
-            // labelComponent: () => customLabel(getLabel(index, date)),
-            // customDataPoint: customDataPoint,
+            value: history[i][`${type}_avg`],
+            dataPointText: history[i][`${type}_avg`],
+            labelComponent: () => myCustomLabel
         }
         chartData.push(data)
-    });
-
+    }
     return chartData
 }
 
 const ChartScreen = () => {
     const [selectedIndex, setSelectedIndex] = useState(0);
-    const [temperatureData, setTemperatureData] = useState([24]);
-    const [humidityData, setHumidityData] = useState([16]);
+    const [temperatureData, setTemperatureData] = useState([]);
+    const [humidityData, setHumidityData] = useState([]);
 
     useEffect(() => {
         const getDataTask = getDatas(selectedIndex)
-        const temperatureHistory: number[] = []
-        const humidityHistory: number[] = []
-        const labels: Date[] = []
 
         getDataTask.then((response) => {
             setTemperatureData(getChartData(response.data, 'temperature', selectedIndex))
