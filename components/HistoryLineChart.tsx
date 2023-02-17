@@ -94,6 +94,7 @@ const HistoryLineChart = ({ temperatureData, humidityData }) => {
             customDataPoint: customDataPoint,
         },
     ];
+
     const [temperatureChartData, setTemperatureChartData] = useState(data)
     const [humidityDataChartData, setHumidityDataChartData] = useState(data)
     
@@ -107,21 +108,18 @@ const HistoryLineChart = ({ temperatureData, humidityData }) => {
 
     return (
         <View style={{
-            // marginTop: 100,
-            // paddingVertical: 50,
-            // backgroundColor: '#414141',
         }}>
             <LineChart
                 data={temperatureChartData}
                 data2={humidityDataChartData}
-                // isAnimated={true}
                 scrollToEnd
                 showVerticalLines
                 color1="orange"
                 color2="skyblue"
                 dataPointsColor1="red"
                 dataPointsColor2="blue"
-                textFontSize={13}
+                textFontSize={15}
+                textShiftY={-5}
             />
         </View>
     );
