@@ -15,7 +15,7 @@ const Tab = createBottomTabNavigator();
 
 function Content() {
   return (
-    <View>
+    <View style={{marginRight:20}}>
       <DarkSwitch />
     </View>
   )
@@ -31,7 +31,9 @@ export default function App() {
 
   return (
     <View style={{ flex: 1, backgroundColor: isDark ? '#181818' : '#f8f8f8' }}>
+
       <darkModeContext.Provider value={{ isDark, toggleIsDark }}>
+
         <darkModeContext.Consumer>
           {({ isDark, toggleIsDark }) => {
             const color = colorSheet(isDark)
@@ -46,7 +48,10 @@ export default function App() {
                     ),
                     tabBarStyle: { backgroundColor: color.backgroundColor },
                     headerStyle: { backgroundColor: color.backgroundColor },
-                    headerTintColor: color.fontColor
+                    headerTintColor: color.fontColor,
+                    headerRight: (props) => (
+                      <Content/>
+                    )
                   }} />
 
                   <Tab.Screen name="Chart" component={ChartScreen} options={{
@@ -55,12 +60,12 @@ export default function App() {
                     ),
                     tabBarStyle: { backgroundColor: color.backgroundColor, },
                     headerStyle: { backgroundColor: color.backgroundColor, },
-                    headerTintColor: color.fontColor
+                    headerTintColor: color.fontColor,
+                    headerRight: (props) => (
+                      <Content />
+                    )
                   }} />
                 </Tab.Navigator>
-                <Content />
-
-
               </NavigationContainer>
             )
           }}
