@@ -24,6 +24,12 @@ function historyChartStyle(isDark: Boolean) {
         font: {
             fontSize: 32
         },
+        chart: {
+            marginTop: 10,
+        },
+        dotColor: {
+            marginLeft: 3,
+        }
     }))
 }
 
