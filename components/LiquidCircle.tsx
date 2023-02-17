@@ -70,7 +70,7 @@ function Wave(props) {
             anim.start();
         }
         _animated = true;
-        console.log("startAnim be called");
+
 
     }
 
@@ -81,7 +81,7 @@ function Wave(props) {
         }
         _animations = [];
         _animated = false;
-        console.log("stopAnim be called");
+
     }
 
     // componentDidMount
@@ -92,11 +92,11 @@ function Wave(props) {
     useMemo(() => {
         setHight(props.H)
         startAnim
-        console.log("wave current Height is: " + props.H + " in useMemo");
+
     } , [props.H])
 
     useEffect(() => {
-        console.log("wave current Height is: " + props.H + " in useEffect");
+
     }, [props.H])
     
     for (let i = 0; i < waveParams.length; i++) {

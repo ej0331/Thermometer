@@ -4,6 +4,9 @@ import React, { useState, useEffect, useContext } from "react";
 import styles from "../styles/HistoryChartStyles";
 import axios from 'axios'
 import HistoryLineChart from "../components/HistoryLineChart";
+import colorSheet from "../styles/color";
+import { darkModeContext } from "../context/isDark";
+
 
 const getLabels = (history: Array<any>, index: number) => {
     let labels: string[] = []
@@ -22,7 +25,7 @@ const getLabels = (history: Array<any>, index: number) => {
             let yesterday = today - 86400 * 1000
             let head = 0
             let tail = 0
-            
+
             while (labels.length < history.length) { // 爛code
                 while (data[tail]['earliest_timestamp'] > standard.valueOf() && tail < history.length - 1) {
                     tail++
@@ -128,6 +131,9 @@ const ChartScreen = () => {
     const [selectedIndex, setSelectedIndex] = useState(0);
     const [temperatureData, setTemperatureData] = useState([]);
     const [humidityData, setHumidityData] = useState([]);
+    const { isDark, toggleIsDark } = useContext(darkModeContext)
+    const color = colorSheet(isDark)
+    const historyLIneChartStyle = styles(isDark)
     const [title, setTitle] = useState("")
 
     useEffect(() => {
@@ -151,8 +157,13 @@ const ChartScreen = () => {
                 onPress={(value) => {
                     setSelectedIndex(value);
                 }}
+                selectedTextStyle={{ color: color.buttonSelectedText }}
+                textStyle={{ color: color.buttonText }}
+                selectedButtonStyle={{ backgroundColor: color.selectButtonColor }}
+                containerStyle={{ backgroundColor: color.buttonColor }}
+
             />
-            <Text style={styles.title}>{title}</Text>
+            <Text style={historyLIneChartStyle.title}>{title}</Text>
             <ScrollView>
                 <HistoryLineChart temperatureData={temperatureData} humidityData={humidityData} />
             </ScrollView>

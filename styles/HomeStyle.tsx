@@ -7,6 +7,7 @@ const homeStyles = StyleSheet.create({
         justifyContent: "space-evenly",
         padding: 10,
         // borderWidth: 2,
+        // backgroundColor: '#181818',
     }
 });
 
