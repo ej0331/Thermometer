@@ -29,6 +29,13 @@ const HistoryLineChart = ({ data, type }) => {
                 textFontSize={15}
                 textShiftY={-5}
                 maxValue={100}
+                backgroundColor={color.backgroundColor}
+                yAxisTextStyle={{ color: color.fontColor }}
+                textColor={color.fontColor}
+                verticalLinesColor = {color.chartLineColor}
+                rulesColor={color.chartLineColor}
+                xAxisColor={color.fontColor}
+                yAxisColor={color.fontColor}
             />
         </View>
     );

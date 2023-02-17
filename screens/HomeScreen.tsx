@@ -67,7 +67,7 @@ const HomeScreen = () => {
                         <View style={waveStyle.container}>
                             <View style={waveStyle.waveTitle}>
                                 <Text style={waveStyle.waveValue}>目前濕度</Text>
-                                <Text style={waveStyle.waveValue}>{humiDatas[humiDatas.length - 1]}°</Text>
+                                <Text style={waveStyle.waveValue}>{humiDatas[humiDatas.length - 1]}%</Text>
                             </View>
                             <Wave
                                 height={500}

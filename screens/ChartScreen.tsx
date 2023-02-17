@@ -19,7 +19,7 @@ const getLabels = (history: Array<any>, index: number) => {
             })
             break
         case 1:
-            let data = history.reverse()            
+            let data = history.reverse()
             let standard = new Date().setHours(8, 0, 0, 0)
             let today = new Date().setHours(8, 0, 0, 0)
             let yesterday = today - 86400 * 1000
@@ -30,7 +30,7 @@ const getLabels = (history: Array<any>, index: number) => {
                 while (data[tail]['earliest_timestamp'] > standard.valueOf() && tail < history.length - 1) {
                     tail++
                 }
-                
+
                 let first = new Date(data[head]['earliest_timestamp'])
                 if (standard == today) {
                     labels.push("今天\n" + first.getHours() + "時")
@@ -44,7 +44,7 @@ const getLabels = (history: Array<any>, index: number) => {
                 for (let i = head + 1; i < tail; i++) {
                     let time = new Date(data[i]['earliest_timestamp'])
                     labels.push(time.getHours() + "時")
-                    if(i == 22) { // 因只跑到 history.length - 1, 當index = history.length的資料需另外新增
+                    if (i == 22) { // 因只跑到 history.length - 1, 當index = history.length的資料需另外新增
                         let time = new Date(data[i + 1]['earliest_timestamp'])
                         labels.push(time.getHours() + "時")
                         break
@@ -89,16 +89,30 @@ const getDatas = async (index: number) => {
 const customLabel = (val: string) => {
     if (val.includes("\n")) {
         return (
-            <View style={{ width: 70, marginLeft: 15}}>
-                <Text style={{fontSize: 12}}>{val}</Text>
-            </View>
+            <darkModeContext.Consumer>
+                {({ isDark, toggleIsDark }) => {
+                    const color = colorSheet(isDark)
+                    return (
+                        <View style={{ width: 70, marginLeft: 15 }}>
+                            <Text style={{ fontSize: 12, color: color.fontColor }}>{val}</Text>
+                        </View>
+                    )
+                }}
+            </darkModeContext.Consumer>
         );
-    
+
     }
     return (
-        <View style={{ width: 70, marginLeft: 15,}}>
-            <Text>{val}</Text>
-        </View>
+        <darkModeContext.Consumer>
+            {({ isDark, toggleIsDark }) => {
+                const color = colorSheet(isDark)
+                return (
+                    <View style={{ width: 70, marginLeft: 15, }}>
+                        <Text style={{ color: color.fontColor }}>{val}</Text>
+                    </View>
+                )
+            }}
+        </darkModeContext.Consumer>
     );
 };
 
@@ -113,6 +127,7 @@ const getChartData = (history: Array<any>, type: string, index: number) => {
         }
         chartData.push(data)
     }
+    console.log(chartData.length)
     return chartData
 }
 

@@ -9,10 +9,11 @@ function colorSheet(isDark: Boolean) {
         selectButtonColor: isDark ? '#495057' : '#0175E8',
         buttonText: '#181818',
         buttonSelectedText: '#f8f8f8',
-        temperatureLineColor: isDark ? '' : 'orange',
-        humidityLineColor: isDark ? '' : 'skyblue',
-        temperatureDotColor: isDark ? '' : 'red',
-        humidityDotColor: isDark ? '' : 'blue',
+        temperatureLineColor: isDark ? '#87323E' : 'orange',
+        humidityLineColor: isDark ? '#D2D9EB' : 'skyblue',
+        temperatureDotColor: isDark ? '#F6465D' : 'red',
+        humidityDotColor: isDark ? '#677DE3' : 'blue',
+        chartLineColor: isDark ? '#30363C' : 'lightgray'
     }
 }
 export default colorSheet
