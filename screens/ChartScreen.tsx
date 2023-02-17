@@ -19,7 +19,7 @@ const getLabels = (history: Array<any>, index: number) => {
             })
             break
         case 1:
-            let data = history.reverse()            
+            let data = history.reverse() 
             let standard = new Date().setHours(8, 0, 0, 0)
             let today = new Date().setHours(8, 0, 0, 0)
             let yesterday = today - 86400 * 1000
@@ -44,16 +44,21 @@ const getLabels = (history: Array<any>, index: number) => {
                 for (let i = head + 1; i < tail; i++) {
                     let time = new Date(data[i]['earliest_timestamp'])
                     labels.push(time.getHours() + "時")
-                    if(i == 22) { // 因只跑到 history.length - 1, 當index = history.length的資料需另外新增
-                        let time = new Date(data[i + 1]['earliest_timestamp'])
+                }
+                if (tail == 23) { // 因只跑到 tail < history.length - 1, tail = history.length - 1的資料需另外處理
+                    if (data[tail]['earliest_timestamp'] > standard.valueOf()) {
+                        let time = new Date(data[tail]['earliest_timestamp'])
                         labels.push(time.getHours() + "時")
-                        break
+                    }
+                    else {
+                        let time = new Date(first.valueOf() - 86400 * 1000)
+                        labels.push(time.getMonth() + 1 + "月" + time.getDate() + "日\n" + time.getHours() + "時")
                     }
                 }
+
                 standard -= 86400 * 1000
                 head = tail
             }
-            labels = labels.reverse()
             break
         case 2:
             history.forEach(item => {
@@ -102,9 +107,8 @@ const customLabel = (val: string) => {
     );
 };
 
-const getChartData = (history: Array<any>, type: string, index: number) => {
+const getChartData = (history: Array<any>, type: string, labels: Array<any>, reversed: boolean = false) => {
     const chartData = []
-    let labels = getLabels(history, index)
     for (let i = 0; i < history.length; i++) {
         let data = {
             value: history[i][`${type}_avg`],
@@ -113,18 +117,10 @@ const getChartData = (history: Array<any>, type: string, index: number) => {
         }
         chartData.push(data)
     }
-    return chartData
-}
-
-const getTitle = (index: number) => {
-    switch (index) {
-        case 0:
-            return "單位:每15分鐘"
-        case 1:
-            return "單位:每小時"
-        case 2:
-            return "單位:每天"
+    if(reversed){
+        return chartData.reverse()
     }
+    return chartData
 }
 
 const ChartScreen = () => {
@@ -134,14 +130,20 @@ const ChartScreen = () => {
     const { isDark, toggleIsDark } = useContext(darkModeContext)
     const color = colorSheet(isDark)
     const historyLIneChartStyle = styles(isDark)
-    const [title, setTitle] = useState("")
 
     useEffect(() => {
         const getDataTask = getDatas(selectedIndex)
-        setTitle(getTitle(selectedIndex))
         getDataTask.then((response) => {
-            setTemperatureData(getChartData(response.data, 'temperature', selectedIndex))
-            setHumidityData(getChartData(response.data, 'humidity', selectedIndex))
+            let history = response.data
+            let labels = getLabels(history, selectedIndex)
+            if(selectedIndex == 1) {
+                setTemperatureData(getChartData(history, 'temperature', labels, true))
+                setHumidityData(getChartData(history, 'humidity', labels, true))
+            }
+            else {
+                setTemperatureData(getChartData(history, 'temperature', labels))
+                setHumidityData(getChartData(history, 'humidity', labels))    
+            }
         })
 
             .catch((e) => {
@@ -161,17 +163,26 @@ const ChartScreen = () => {
                 textStyle={{ color: color.buttonText }}
                 selectedButtonStyle={{ backgroundColor: color.selectButtonColor }}
                 containerStyle={{ backgroundColor: color.buttonColor }}
-
             />
-            <Text style={historyLIneChartStyle.title}>{title}</Text>
-            <ScrollView>
+            <Text style={historyLIneChartStyle.title}>溫度變化表</Text>
+            <ScrollView style={historyLIneChartStyle.chart}>
                 <HistoryLineChart data={temperatureData} type="temperature" />
             </ScrollView>
-            <ScrollView>
+            
+            <View style={{marginTop: 10}}></View>
+
+            <Text style={historyLIneChartStyle.title}>濕度變化表</Text>
+            <ScrollView style={historyLIneChartStyle.chart}>
                 <HistoryLineChart data={humidityData} type="humidity" />
             </ScrollView>
         </View>
     )
 }
+            {/* <View style={{flexDirection: "row", alignItems: "center", justifyContent: "center"}}>
+                <View style={{height: 10, width :10, borderRadius: 500, backgroundColor: color.temperatureDotColor}} />
+                <Text style={historyLIneChartStyle.dotColor}>溫度</Text>
+                <View style={{height: 10, width :10, borderRadius: 500, backgroundColor: color.humidityDotColor}} />
+                <Text style={historyLIneChartStyle.dotColor}>濕度</Text>
+            </View> */}
 
 export default ChartScreen
