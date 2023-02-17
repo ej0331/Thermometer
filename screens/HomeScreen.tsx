@@ -25,7 +25,9 @@ const HomeScreen = () => {
     const [labels, setLabels] = useState([time])
     const [tempDatas, setTempDatas] = useState([24])
     const [humiDatas, setHumiDatas] = useState([16])
-
+    const { isDark, toggleIsDark } = useContext(darkModeContext)
+    const waveStyle = waveStyles(isDark)
+    const thermometerStyle = thermometerStyles(isDark)
     useEffect(() => {
         const timer = setInterval(() => {
             axios.get('http://192.168.168.155:3000/api/data')
@@ -57,37 +59,32 @@ const HomeScreen = () => {
     }, [labels])
 
     return (
-        <darkModeContext.Consumer>
-            {({ isDark, toggleIsDark }) => {
-                const waveStyle = waveStyles(isDark)
-                const thermometerStyle = thermometerStyles(isDark)
-                return (
-                    <View style={homeStyles.container}>
+        <View style={homeStyles.container}>
 
-                        <View style={waveStyle.container}>
-                            <View style={waveStyle.waveTitle}>
-                                <Text style={waveStyle.waveValue}>目前濕度</Text>
-                                <Text style={waveStyle.waveValue}>{humiDatas[humiDatas.length - 1]}%</Text>
-                            </View>
-                            <Wave
-                                height={500}
-                                style={waveStyle.waveBall}
-                                H={humiDatas[humiDatas.length - 1]}
-                                waveParams={[
-                                    { A: 10, T: 200, fill: '#62c2ff' },
-                                    { A: 15, T: 180, fill: '#0087dc' },
-                                    { A: 20, T: 160, fill: '#1aa7ff' },
-                                ]}
-                                animated={true}
-                            />
-                        </View>
-                        <View style={thermometerStyle.container}>
-                            <Thermometer
-                                temperature={tempDatas[tempDatas.length - 1]}
-                            />
-                            <Text style={thermometerStyle.title}>目前溫度{tempDatas[tempDatas.length - 1]}°C</Text>
-                        </View>
-                        {/* <View>
+            <View style={waveStyle.container}>
+                <View style={waveStyle.waveTitle}>
+                    <Text style={waveStyle.waveValue}>目前濕度</Text>
+                    <Text style={waveStyle.waveValue}>{humiDatas[humiDatas.length - 1]}%</Text>
+                </View>
+                <Wave
+                    height={500}
+                    style={waveStyle.waveBall}
+                    H={humiDatas[humiDatas.length - 1]}
+                    waveParams={[
+                        { A: 10, T: 200, fill: '#62c2ff' },
+                        { A: 15, T: 180, fill: '#0087dc' },
+                        { A: 20, T: 160, fill: '#1aa7ff' },
+                    ]}
+                    animated={true}
+                />
+            </View>
+            <View style={thermometerStyle.container}>
+                <Thermometer
+                    temperature={tempDatas[tempDatas.length - 1]}
+                />
+                <Text style={thermometerStyle.title}>目前溫度{tempDatas[tempDatas.length - 1]}°C</Text>
+            </View>
+            {/* <View>
                 <Text style={historyChartStyle.font}>
                     temprature: {tempDatas[tempDatas.length - 1]}
                 </Text>
@@ -99,10 +96,7 @@ const HomeScreen = () => {
                 </Text>
                 <HistoryLineChart labels={labels} datas={humiDatas} />
             </View> */}
-                    </View>
-                )
-            }}
-        </darkModeContext.Consumer>
+        </View>
     )
 }
 

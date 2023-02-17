@@ -23,6 +23,7 @@ function Content() {
 
 export default function App() {
   const [isDark, setIsDark] = React.useState(false)
+  const color = colorSheet(isDark)
   function toggleIsDark() {
     setIsDark(!isDark)
   }
@@ -32,42 +33,34 @@ export default function App() {
     <View style={{ flex: 1, backgroundColor: isDark ? '#181818' : '#f8f8f8' }}>
 
       <darkModeContext.Provider value={{ isDark, toggleIsDark }}>
+        <NavigationContainer >
+          <StatusBar barStyle={isDark ? 'light-content' : 'dark-content'} />
+          <Tab.Navigator sceneContainerStyle={{ backgroundColor: color.backgroundColor }}>
+            <Tab.Screen name="Home" component={HomeScreen} options={{
+              tabBarIcon: ({ focused }) => (
+                <Icon name="home" size={30} color={focused ? color.navigationFocusedColor : color.navigationColor} />
+              ),
+              tabBarStyle: { backgroundColor: color.backgroundColor },
+              headerStyle: { backgroundColor: color.backgroundColor },
+              headerTintColor: color.fontColor,
+              headerRight: (props) => (
+                <Content />
+              )
+            }} />
 
-        <darkModeContext.Consumer>
-          {({ isDark, toggleIsDark }) => {
-            const color = colorSheet(isDark)
-            return (
-              <NavigationContainer >
-                <StatusBar barStyle={isDark ? 'light-content' : 'dark-content'} />
-                <Tab.Navigator sceneContainerStyle={{ backgroundColor: color.backgroundColor }}>
-                  <Tab.Screen name="Home" component={HomeScreen} options={{
-                    tabBarIcon: ({ focused }) => (
-                      <Icon name="home" size={30} color={focused ? color.navigationFocusedColor : color.navigationColor} />
-                    ),
-                    tabBarStyle: { backgroundColor: color.backgroundColor },
-                    headerStyle: { backgroundColor: color.backgroundColor },
-                    headerTintColor: color.fontColor,
-                    headerRight: (props) => (
-                      <Content />
-                    )
-                  }} />
-
-                  <Tab.Screen name="Chart" component={ChartScreen} options={{
-                    tabBarIcon: ({ focused }) => (
-                      <Icon name="bar-chart" size={30} color={focused ? color.navigationFocusedColor : color.navigationColor} />
-                    ),
-                    tabBarStyle: { backgroundColor: color.backgroundColor, },
-                    headerStyle: { backgroundColor: color.backgroundColor, },
-                    headerTintColor: color.fontColor,
-                    headerRight: (props) => (
-                      <Content />
-                    )
-                  }} />
-                </Tab.Navigator>
-              </NavigationContainer>
-            )
-          }}
-        </darkModeContext.Consumer>
+            <Tab.Screen name="Chart" component={ChartScreen} options={{
+              tabBarIcon: ({ focused }) => (
+                <Icon name="bar-chart" size={30} color={focused ? color.navigationFocusedColor : color.navigationColor} />
+              ),
+              tabBarStyle: { backgroundColor: color.backgroundColor, },
+              headerStyle: { backgroundColor: color.backgroundColor, },
+              headerTintColor: color.fontColor,
+              headerRight: (props) => (
+                <Content />
+              )
+            }} />
+          </Tab.Navigator>
+        </NavigationContainer>
       </darkModeContext.Provider >
     </View>
   );
