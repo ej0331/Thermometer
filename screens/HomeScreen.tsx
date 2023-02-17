@@ -5,10 +5,10 @@ import axios from 'axios'
 /* #endregion */
 
 /* #region  import styles */
-import waveStyles from "../styles/LiquidCircleStyle";
-import thermometerStyles from "../styles/ThermometerStyle";
-import homeStyles from "../styles/HomeStyle";
-import historyChartStyle from "../styles/HistoryChartStyles";
+import waveStyles from "../assets/styles/LiquidCircleStyle";
+import thermometerStyles from "../assets/styles/ThermometerStyle";
+import homeStyles from "../assets/styles/HomeStyle";
+import historyChartStyle from "../assets/styles/HistoryChartStyles";
 /* #endregion */
 
 /* #region  import components */

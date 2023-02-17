@@ -1,10 +1,10 @@
 import { Text, Image, View, StyleSheet, TouchableOpacity, TextInput, ScrollView, FlatList, Button, Dimensions } from "react-native";
 import { ButtonGroup } from "react-native-elements"
 import React, { useState, useEffect, useContext } from "react";
-import styles from "../styles/HistoryChartStyles";
+import styles from "../assets/styles/HistoryChartStyles";
 import axios from 'axios'
 import HistoryLineChart from "../components/HistoryLineChart";
-import colorSheet from "../styles/color";
+import colorSheet from "../assets/styles/color";
 import { darkModeContext } from "../context/isDark";
 
 
@@ -165,7 +165,10 @@ const ChartScreen = () => {
             />
             <Text style={historyLIneChartStyle.title}>{title}</Text>
             <ScrollView>
-                <HistoryLineChart temperatureData={temperatureData} humidityData={humidityData} />
+                <HistoryLineChart data={temperatureData} type="temperature" />
+            </ScrollView>
+            <ScrollView>
+                <HistoryLineChart data={humidityData} type="humidity" />
             </ScrollView>
         </View>
     )

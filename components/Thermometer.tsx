@@ -6,7 +6,7 @@ import {
 } from 'react-native';
 import RNSpeedometer from 'react-native-speedometer'
 import { darkModeContext } from '../context/isDark';
-import colorSheet from '../styles/color';
+import colorSheet from '../assets/styles/color';
 
 
 const Thermometer = (props) => {

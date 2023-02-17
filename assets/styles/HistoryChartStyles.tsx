@@ -24,22 +24,6 @@ function historyChartStyle(isDark: Boolean) {
         font: {
             fontSize: 32
         },
-        dataPoint: {
-            width: 5,
-            height: 5,
-            backgroundColor: 'white',
-            borderWidth: 1,
-            borderRadius: 10,
-            borderColor: '#white',
-        },
-        customLabelView: {
-            width: 70,
-            marginLeft: 7
-        },
-        customLabelText: {
-            color: 'white',
-            fontWeight: 'bold'
-        }
     }))
 }
 

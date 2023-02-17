@@ -5,10 +5,10 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import HomeScreen from './screens/HomeScreen';
 import ChartScreen from './screens/ChartScreen';
-import styles from './styles/HistoryChartStyles';
+import styles from './assets/styles/HistoryChartStyles';
 import { darkModeContext } from './context/isDark';
 import DarkSwitch from './components/DarkSwitch';
-import colorSheet from './styles/color';
+import colorSheet from './assets/styles/color';
 
 
 const Tab = createBottomTabNavigator();
