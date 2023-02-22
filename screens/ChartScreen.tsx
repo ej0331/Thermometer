@@ -6,6 +6,7 @@ import axios from 'axios'
 import HistoryLineChart from "../components/HistoryLineChart";
 import colorSheet from "../assets/styles/color";
 import { darkModeContext } from "../context/isDark";
+const api = 'https://therometer.onrender.com/api/'
 
 
 const getLabels = (history: Array<any>, index: number) => {
@@ -19,7 +20,7 @@ const getLabels = (history: Array<any>, index: number) => {
             })
             break
         case 1:
-            let data = history.reverse() 
+            let data = history.reverse()
             let standard = new Date().setHours(8, 0, 0, 0)
             let today = new Date().setHours(8, 0, 0, 0)
             let yesterday = today - 86400 * 1000
@@ -88,7 +89,7 @@ const getDatas = async (index: number) => {
             break
     }
 
-    return axios.get(`http://192.168.168.155:3000/api/datas/${type}`)
+    return axios.get(`${api}datas/${type}`)
 }
 
 const customLabel = (val: string) => {
@@ -131,7 +132,7 @@ const getChartData = (history: Array<any>, type: string, labels: Array<any>, rev
         }
         chartData.push(data)
     }
-    if(reversed){
+    if (reversed) {
         return chartData.reverse()
     }
     return chartData
@@ -150,13 +151,13 @@ const ChartScreen = () => {
         getDataTask.then((response) => {
             let history = response.data
             let labels = getLabels(history, selectedIndex)
-            if(selectedIndex == 1) {
+            if (selectedIndex == 1) {
                 setTemperatureData(getChartData(history, 'temperature', labels, true))
                 setHumidityData(getChartData(history, 'humidity', labels, true))
             }
             else {
                 setTemperatureData(getChartData(history, 'temperature', labels))
-                setHumidityData(getChartData(history, 'humidity', labels))    
+                setHumidityData(getChartData(history, 'humidity', labels))
             }
         })
 
@@ -182,8 +183,8 @@ const ChartScreen = () => {
             <ScrollView style={historyLIneChartStyle.chart}>
                 <HistoryLineChart data={temperatureData} type="temperature" />
             </ScrollView>
-            
-            <View style={{marginTop: 10}}></View>
+
+            <View style={{ marginTop: 10 }}></View>
 
             <Text style={historyLIneChartStyle.title}>濕度變化表</Text>
             <ScrollView style={historyLIneChartStyle.chart}>
@@ -192,7 +193,7 @@ const ChartScreen = () => {
         </View>
     )
 }
-            {/* <View style={{flexDirection: "row", alignItems: "center", justifyContent: "center"}}>
+{/* <View style={{flexDirection: "row", alignItems: "center", justifyContent: "center"}}>
                 <View style={{height: 10, width :10, borderRadius: 500, backgroundColor: color.temperatureDotColor}} />
                 <Text style={historyLIneChartStyle.dotColor}>溫度</Text>
                 <View style={{height: 10, width :10, borderRadius: 500, backgroundColor: color.humidityDotColor}} />

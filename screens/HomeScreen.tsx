@@ -16,6 +16,7 @@ import Wave from "../components/LiquidCircle";
 import Thermometer from "../components/Thermometer";
 import HistoryLineChart from "../components/HistoryLineChart";
 import { darkModeContext } from "../context/isDark";
+const api ='https://therometer.onrender.com/api/'
 
 /* #endregion */
 
@@ -30,7 +31,7 @@ const HomeScreen = () => {
     const thermometerStyle = thermometerStyles(isDark)
     useEffect(() => {
         const timer = setInterval(() => {
-            axios.get('http://192.168.168.155:3000/api/data')
+            axios.get(`${api}data`)
                 .then(res => {
                     const data = res.data
                     const date = new Date(data.timestamp)

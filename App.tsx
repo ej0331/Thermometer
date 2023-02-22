@@ -34,7 +34,9 @@ export default function App() {
 
       <darkModeContext.Provider value={{ isDark, toggleIsDark }}>
         <NavigationContainer >
-          <StatusBar barStyle={isDark ? 'light-content' : 'dark-content'} />
+          <StatusBar barStyle={isDark ? 'light-content' : 'dark-content'}
+            backgroundColor={color.backgroundColor}
+          />
           <Tab.Navigator sceneContainerStyle={{ backgroundColor: color.backgroundColor }}>
             <Tab.Screen name="Home" component={HomeScreen} options={{
               tabBarIcon: ({ focused }) => (
